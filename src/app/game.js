@@ -29,18 +29,18 @@ const Game = () => {
 
   const handleClick = (index) => {
     if (board[index] || winner) return; // Don't do anything if the spot is already filled or the game has ended
-  
+
     const newBoard = board.slice(); // Make a copy of the board
     newBoard[index] = isXNext ? "X" : "O"; // Set the current player's mark
-  
+
     setBoard(newBoard);
     setIsXNext(!isXNext); // Switch turns
-    setMoves((prevMoves) => prevMoves + 1); // Increment move count
-  
+    setMoves(moves + 1); // Increment move count
+
     const currentWinner = calculateWinner(newBoard);
     if (currentWinner) {
       setWinner(currentWinner);
-    } else if (newBoard.every((square) => square !== null)) { // Check for a draw
+    } else if (moves === 8) {
       setWinner("Draw");
     }
   };
