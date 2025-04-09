@@ -1,5 +1,5 @@
+import clientPromise from '../lib/mongodb';  // Correct path if players.js is in /pages
 
-import { connectToDatabase } from '../../lib/mongodb';
 
 export default async function handler(req, res) {
   const { db } = await connectToDatabase();
