@@ -1,30 +1,23 @@
-// pages/api/submit-name.js
+import { MongoClient } from "mongodb";
 
-import { connectToDatabase } from "../../lib/mongodb"; // Import the connection function
+const uri = process.env.MONGODB_URI;
 
-async function handler(req, res) {
-  if (req.method === "POST") {
-    const { name } = req.body;
+let client;
+let db;
 
-    // Validate name
-    if (!name) {
-      return res.status(400).json({ message: "Name is required" });
-    }
+export async function connectToDatabase() {
+  if (client && db) {
+    return { client, db }; // If already connected, return the client and db
+  }
 
-    try {
-      // Connect to the database
-      const { db } = await connectToDatabase();
-
-      // Insert the user's name into the 'players' collection
-      const result = await db.collection("players").insertOne({ name });
-
-      return res.status(200).json({ message: "Name saved successfully", player: result });
-    } catch (error) {
-      return res.status(500).json({ message: "Failed to save name", error: error.message });
-    }
-  } else {
-    return res.status(405).json({ message: "Method Not Allowed" });
+  try {
+    client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    await client.connect();
+    db = client.db(); // Automatically connects to the default database
+    console.log("Connected to MongoDB");
+    return { client, db };
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    throw new Error("Failed to connect to MongoDB");
   }
 }
-
-export default handler;
