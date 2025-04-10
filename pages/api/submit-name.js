@@ -1,6 +1,7 @@
 // pages/api/submit-name.js
 
-import { connectToDatabase } from "../../lib/mongodb"; // Import the connection function
+import { connectToDatabase } from '@/lib/mongodb';
+
 
 async function handler(req, res) {
   if (req.method === "POST") {
