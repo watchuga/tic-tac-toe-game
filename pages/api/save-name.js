@@ -1,4 +1,5 @@
-import { connectToDatabase } from '@/lib/mongodb'; // or '../../lib/mongodb'
+import { clientPromise } from '../../lib/mongodb';
+
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {

@@ -1,4 +1,5 @@
-import { connectToDatabase } from '@/lib/mongodb'; // or '../../lib/mongodb'
+import { clientPromise } from '../../lib/mongodb';
+
 
 
 async function handler(req, res) {
